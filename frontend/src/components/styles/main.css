@@ -7,12 +7,12 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    justify-content: flex-start;
+    justify-content: space-between;
     margin-left: 200px;
     margin-top: -450px;
 }
 
-/* Остальные стили из вашего main.css */
+
 body.main-page {
     background-color: #F5F5F5;
     margin: 0;
