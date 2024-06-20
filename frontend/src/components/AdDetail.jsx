@@ -22,7 +22,7 @@ const AdDetail = () => {
 
     const fetchBids = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/get_bids/${ad_id}`);
+        const response = await axios.get(`https://reactroadstar-3.onrender.com/get_bids/${ad_id}`);
         setBids(response.data);
       } catch (error) {
         console.error('Error fetching bids:', error);
@@ -37,7 +37,7 @@ const AdDetail = () => {
     try {
       const userId = localStorage.getItem('user'); // Предполагается, что ID пользователя хранится в localStorage
       if (userId) {
-        await axios.post('http://localhost:8000/place_bid', {
+        await axios.post('https://reactroadstar-3.onrender.com/place_bid', {
           ad_id: ad_id,
           user_id: JSON.parse(userId).user_id,
           bid_amount: bidAmount
