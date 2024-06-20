@@ -6,10 +6,11 @@ from models import User, Advertisement, Base, Bid
 from pydantic import BaseModel
 from typing import List, Optional
 import base64
+import os  # Для использования переменных окружения
 
 app = FastAPI()
 
-DATABASE_URL = "postgresql://postgres:avzad220604@localhost/roadstar"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 app.add_middleware(
     CORSMiddleware,
