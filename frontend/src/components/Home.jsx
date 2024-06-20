@@ -1,18 +1,20 @@
-// Убедитесь, что у вас установлена версия react-router-dom, поддерживающая хук useHistory
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Импортируем useNavigate
-import './styles/index.css'; // Импортируем стили
+import { useNavigate } from 'react-router-dom';
+import './styles/index.css';
 
 import SVG from './images/SVG.png';
 import logo from './images/logo.png';
 
 const Home = () => {
-    const navigate = useNavigate(); // Инициализируем useNavigate
+  const navigate = useNavigate();
 
-    const handleClick = () => {
-      // Переход на другую страницу по нажатию на кнопку
-      navigate('/register');
-    };
+  const handleRegisterClick = () => {
+    navigate('/register');
+  };
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
 
   return (
     <div className="container">
@@ -39,8 +41,8 @@ const Home = () => {
           <div>Register and start selling your items with the comfort of putting them up for auction.</div>
           <div>We will help you with this.</div>
         </div>
-        <button className="start-button" onClick={handleClick}>Start Now</button>
-        <button className="more-button">More</button>
+        <button className="start-button" onClick={handleRegisterClick}>Start Now</button>
+        <button className="more-button" onClick={handleLoginClick}>Login</button>
       </div>
     </div>
   );
