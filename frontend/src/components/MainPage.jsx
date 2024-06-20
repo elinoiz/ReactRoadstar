@@ -12,7 +12,7 @@ const MainPage = () => {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/get_ad');
+        const response = await axios.get('https://reactroadstar-3.onrender.com/get_ad');
         setAds(response.data);
       } catch (error) {
         console.error('Error fetching ads:', error);

@@ -68,7 +68,7 @@ const CreateAd = () => {
     form.append('user_id', user.user_id);
   
     try {
-      const response = await fetch('http://localhost:8000/createAd', {
+      const response = await fetch('https://reactroadstar-3.onrender.com/createAd', {
         method: 'POST',
         body: form,
         headers: {

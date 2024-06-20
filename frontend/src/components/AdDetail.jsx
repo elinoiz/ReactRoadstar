@@ -13,7 +13,7 @@ const AdDetail = () => {
   useEffect(() => {
     const fetchAd = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/get_ad/${ad_id}`);
+        const response = await axios.get(`https://reactroadstar-3.onrender.com/get_ad/${ad_id}`);
         setAd(response.data);
       } catch (error) {
         console.error('Error fetching ad:', error);
