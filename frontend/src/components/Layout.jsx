@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, Link } from 'react-router-dom';
 import './styles/main.css';
 
 import logoR from './images/logoR.png';
@@ -36,7 +36,9 @@ const Layout = () => {
   return (
     <div>
       <div className="header">
-        <img src={logoR} alt="Logo" className="logo" />
+        <Link to="/main">
+          <img src={logoR} alt="Logo" className="logo" />
+        </Link>
 
         <div className="hat">
           <div className="search-box">
