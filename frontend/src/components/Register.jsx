@@ -24,7 +24,7 @@ const RegisterPage = () => {
         formDataToSend.append('user_name', formData.login);
         formDataToSend.append('user_pass', formData.password);
 
-        const response = await axios.post('http://localhost:8000/register/', formDataToSend, {
+        const response = await axios.post('https://reactroadstar-3.onrender.com/register/', formDataToSend, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
