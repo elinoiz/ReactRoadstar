@@ -20,37 +20,42 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const formDataToSend = new FormData();
-        formDataToSend.append('user_name', formData.login);
-        formDataToSend.append('user_pass', formData.password);
+      const formDataToSend = new FormData();
+      formDataToSend.append('user_name', formData.login);
+      formDataToSend.append('user_pass', formData.password);
 
-        const response = await axios.post('https://reactroadstar-3.onrender.com/login/', formDataToSend, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-        console.log('Login response data:', response.data);
-      
-
-        if (response.data && response.data.success) {
-            alert('Login successful!');
-            const user = {
-              user_id: response.data.user_id,
-              name: formData.login,
-              isAuthenticated: true,
-            };
-            setUser(user);
-            localStorage.setItem('user', JSON.stringify(user));
-
-            console.log('User saved in localStorage:', JSON.stringify(user));
-            navigate('/main'); // Перенаправление на главную страницу
-        } else {
-            alert('Login failed!');
+      const response = await axios.post(
+        'https://reactroadstar-3.onrender.com/login/',
+        formDataToSend,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         }
-        
-    } catch (error) {
-        console.error(error);
+      );
+
+      console.log('Login response data:', response.data);
+
+      if (response.data && response.data.success) {
+        alert('Login successful!');
+
+        const user = {
+          user_id: response.data.user_id,          // ✅ правильное имя поля
+          user_name: response.data.user_name,      // ✅ используем то, что возвращает сервер
+          isAuthenticated: true,
+        };
+
+        setUser(user);
+        localStorage.setItem('user', JSON.stringify(user));
+
+        console.log('User saved in localStorage:', JSON.stringify(user));
+        navigate('/main'); // Перенаправление на главную страницу
+      } else {
         alert('Login failed!');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Login failed!');
     }
   };
 
