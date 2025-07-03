@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState, useRef } from 'react';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
 import './styles/main.css';
 
@@ -18,12 +18,37 @@ const Layout = () => {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
+  const [showLogout, setShowLogout] = useState(false);
+  const avatarRef = useRef(null);
+
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
   }, [setUser]);
+
+  // Закрыть кнопку "Выйти", если клик вне аватара
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (avatarRef.current && !avatarRef.current.contains(event.target)) {
+        setShowLogout(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+    setShowLogout(false);
+    navigate('/login');
+  };
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
 
   const handleSearch = (e) => {
     console.log('Search:', e.target.value);
@@ -48,9 +73,51 @@ const Layout = () => {
 
           <div className="roadstar">Roadstar</div>
 
-          <div className="user-info">
-            <span className="username">{user ? user.name : 'Александр'}</span>
-            <img src={Avatar} alt="Avatar" className="avatar" />
+          <div className="user-info" ref={avatarRef} style={{ position: 'relative' }}>
+            {user ? (
+              <>
+                <span className="username">{user.name}</span>
+                <img
+                  src={user.photo || Avatar}
+                  alt="Avatar"
+                  className="avatar"
+                  onClick={() => setShowLogout((prev) => !prev)}
+                  style={{ cursor: 'pointer' }}
+                />
+                {showLogout && (
+                  <button
+                    onClick={handleLogout}
+                    style={{
+                      position: 'absolute',
+                      top: '60px',
+                      right: 0,
+                      padding: '5px 10px',
+                      cursor: 'pointer',
+                      background: '#ff4d4f',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '5px',
+                    }}
+                  >
+                    Выйти
+                  </button>
+                )}
+              </>
+            ) : (
+              <button
+                onClick={handleLoginClick}
+                style={{
+                  padding: '5px 10px',
+                  cursor: 'pointer',
+                  background: '#1890ff',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '5px',
+                }}
+              >
+                Войти
+              </button>
+            )}
           </div>
         </div>
       </div>
