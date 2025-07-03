@@ -18,40 +18,44 @@ const RegisterPage = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('user_name', formData.login);
-      formDataToSend.append('user_pass', formData.password);
+  e.preventDefault();
+  try {
+    const formDataToSend = new FormData();
+    formDataToSend.append('user_name', formData.login);
+    formDataToSend.append('user_pass', formData.password);
 
-      // 1. Регистрируем пользователя
-      await axios.post('https://reactroadstar-3.onrender.com/register/', formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+    // 1. Регистрируем пользователя
+    await axios.post('https://reactroadstar-3.onrender.com/register/', formDataToSend, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
-      // 2. Автоматически логиним пользователя после регистрации
-      const loginResponse = await axios.post('https://reactroadstar-3.onrender.com/login/', formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+    // 2. Автоматически логиним пользователя после регистрации
+    const loginResponse = await axios.post('https://reactroadstar-3.onrender.com/login/', formDataToSend, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
+    if (loginResponse.data && loginResponse.data.success) {
       const userData = {
         id: loginResponse.data.user_id,
         name: formData.login,
-        isAuthenticated: true
+        isAuthenticated: true // Добавляем это поле
       };
       
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
       navigate('/main');
-    } catch (error) {
-      console.error(error);
-      alert('Registration failed!');
+    } else {
+      throw new Error('Login after registration failed');
     }
-  };
+  } catch (error) {
+    console.error(error);
+    alert('Registration failed!');
+  }
+};
 
   return (
     <div className="container">
