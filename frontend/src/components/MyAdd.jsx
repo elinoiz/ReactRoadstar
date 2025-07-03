@@ -21,7 +21,7 @@ const MyAdd = () => {
       try {
         console.log('Fetching ads for user ID:', user.id); // Логируем ID пользователя
         const response = await axios.get(`https://reactroadstar-3.onrender.com/get_all_ads_by_user`, {
-          params: { user_id: user.id }
+          params: { params: user_id: user.user_id }
         });
         console.log('API Response:', response.data); // Логируем ответ
         if (!response.data) {
