@@ -78,13 +78,23 @@ const Layout = () => {
                     className="logout-button"
                     style={{
                       marginLeft: '10px',
-                      padding: '5px 10px',
+                      padding: '6px 14px',
+                      backgroundColor: '#ff4d4f',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '4px',
                       cursor: 'pointer',
+                      fontWeight: '600',
+                      boxShadow: '0 2px 6px rgba(255, 77, 79, 0.4)',
+                      transition: 'background-color 0.3s ease',
                     }}
+                    onMouseEnter={e => e.currentTarget.style.backgroundColor = '#d9363e'}
+                    onMouseLeave={e => e.currentTarget.style.backgroundColor = '#ff4d4f'}
                   >
                     Выйти
                   </button>
                 )}
+
               </>
             ) : (
               <button
