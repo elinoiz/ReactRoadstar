@@ -34,33 +34,22 @@ const Layout = () => {
     navigate('/main/create-ad');
   };
 
-  const toggleLogout = (e) => {
-    e.stopPropagation();
+  const toggleLogout = () => {
     setShowLogout(prev => !prev);
   };
 
   const handleLogout = () => {
     logout();
     setShowLogout(false);
+    // НЕ делаем navigate — остаёмся на текущей странице
   };
 
   const handleLoginRedirect = () => {
-    navigate('/login');
+    navigate('/login'); // Переходим на страницу логина
   };
 
-  // Закрывать меню при клике вне его
-  useEffect(() => {
-    const handleClickOutside = () => {
-      if (showLogout) {
-        setShowLogout(false);
-      }
-    };
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, [showLogout]);
-
   return (
-    <div style={{ position: 'relative' }}>
+    <div>
       <div className="header">
         <Link to="/main">
           <img src={logoR} alt="Logo" className="logo" />
@@ -79,48 +68,22 @@ const Layout = () => {
 
           <div className="roadstar">Roadstar</div>
 
-          <div style={{ 
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'center',
-            minWidth: '150px',
-            justifyContent: 'flex-end'
-          }}>
+          <div className="user-info" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             {user ? (
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '10px',
-                position: 'relative',
-                cursor: 'pointer'
-              }} onClick={toggleLogout}>
-                <span style={{ 
-                  fontWeight: '500',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  maxWidth: '120px'
-                }}>{user.name}</span>
+              <>
+                <span className="username">{user.name}</span>
                 <img
                   src={Avatar}
                   alt="Avatar"
-                  style={{ 
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    objectFit: 'cover'
-                  }}
+                  className="avatar"
+                  style={{ cursor: 'pointer' }}
+                  onClick={toggleLogout}
                 />
                 {showLogout && (
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleLogout();
-                    }}
+                    onClick={handleLogout}
+                    className="logout-button"
                     style={{
-                      position: 'absolute',
-                      top: 'calc(100% + 5px)',
-                      right: 0,
                       padding: '6px 14px',
                       backgroundColor: '#ff4d4f',
                       color: '#fff',
@@ -130,7 +93,6 @@ const Layout = () => {
                       fontWeight: '600',
                       boxShadow: '0 2px 6px rgba(255, 77, 79, 0.4)',
                       transition: 'background-color 0.3s ease',
-                      zIndex: 100,
                     }}
                     onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#d9363e')}
                     onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#ff4d4f')}
@@ -138,10 +100,11 @@ const Layout = () => {
                     Выйти
                   </button>
                 )}
-              </div>
+              </>
             ) : (
               <button
                 onClick={handleLoginRedirect}
+                className="login-button"
                 style={{
                   padding: '6px 16px',
                   backgroundColor: '#1890ff',
@@ -152,7 +115,6 @@ const Layout = () => {
                   fontWeight: '600',
                   boxShadow: '0 2px 6px rgba(24, 144, 255, 0.4)',
                   transition: 'background-color 0.3s ease',
-                  whiteSpace: 'nowrap'
                 }}
                 onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#096dd9')}
                 onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1890ff')}
