@@ -65,6 +65,7 @@ const AdDetail = () => {
       </div>
       <div className="right-section">
         <h2>{ad.title}</h2>
+        <p><strong>Автор объявления:</strong> {ad.user_name}</p> {/* Новое поле */}
         <p><strong>Город:</strong> {ad.city}</p>
         <p><strong>Начальная цена:</strong> {ad.start_price}</p>
         <p><strong>Категория:</strong> {ad.category}</p>
