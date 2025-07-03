@@ -41,7 +41,7 @@ const Layout = () => {
   const handleLogout = () => {
     logout();
     setShowLogout(false);
-    // Не делаем navigate — остаёмся на текущей странице
+    // НЕ делаем navigate — остаёмся на текущей странице
   };
 
   const handleLoginRedirect = () => {
@@ -55,45 +55,20 @@ const Layout = () => {
           <img src={logoR} alt="Logo" className="logo" />
         </Link>
 
-        <div
-          className="hat"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '20px',
-            width: '100%',
-            maxWidth: '900px',
-            marginLeft: '20px', // подправь отступы при необходимости
-            marginRight: '20px',
-          }}
-        >
-          <div className="search-box" style={{ flexGrow: 1, maxWidth: '300px' }}>
+        <div className="hat">
+          <div className="search-box">
             <input
               type="text"
               className="search-input"
               placeholder="Search..."
               onChange={handleSearch}
-              style={{ width: '100%' }}
             />
             <img src={iconLoop} alt="Loop" className="search-icon" />
           </div>
 
-          <div className="roadstar" style={{ flexShrink: 0, fontWeight: '700', fontSize: '20px' }}>
-            Roadstar
-          </div>
+          <div className="roadstar">Roadstar</div>
 
-          <div
-            className="user-info"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              justifyContent: 'flex-end',
-              minWidth: '150px',
-              flexShrink: 0,
-            }}
-          >
+          <div className="user-info" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             {user ? (
               <>
                 <span className="username">{user.name}</span>
@@ -116,12 +91,11 @@ const Layout = () => {
                       borderRadius: '4px',
                       cursor: 'pointer',
                       fontWeight: '600',
-                      marginLeft: '10px',
                       boxShadow: '0 2px 6px rgba(255, 77, 79, 0.4)',
                       transition: 'background-color 0.3s ease',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#d9363e')}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ff4d4f')}
+                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#d9363e')}
+                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#ff4d4f')}
                   >
                     Выйти
                   </button>
@@ -142,8 +116,8 @@ const Layout = () => {
                   boxShadow: '0 2px 6px rgba(24, 144, 255, 0.4)',
                   transition: 'background-color 0.3s ease',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#096dd9')}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#1890ff')}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#096dd9')}
+                onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1890ff')}
               >
                 Войти
               </button>
