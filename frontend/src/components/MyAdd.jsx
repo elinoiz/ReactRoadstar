@@ -19,22 +19,23 @@ const MyAdd = () => {
 
     const fetchMyAds = async () => {
       try {
-        console.log('Fetching ads for user ID:', user.id); // Логируем ID пользователя
+        console.log('Fetching ads for user ID:', user.user_id); // исправили здесь тоже
         const response = await axios.get(`https://reactroadstar-3.onrender.com/get_all_ads_by_user`, {
-          params: { params: user_id: user.user_id }
+          params: { user_id: user.user_id }
         });
-        console.log('API Response:', response.data); // Логируем ответ
+        console.log('API Response:', response.data);
         if (!response.data) {
           throw new Error('Пустой ответ от сервера');
         }
         setMyAds(response.data);
       } catch (error) {
-        console.error('Полная ошибка:', error.response || error); // Подробное логирование
+        console.error('Полная ошибка:', error.response || error);
         setError(`Ошибка загрузки: ${error.response?.data?.message || error.message}`);
       } finally {
         setLoading(false);
       }
     };
+
 
     fetchMyAds();
   }, [user, navigate]);
