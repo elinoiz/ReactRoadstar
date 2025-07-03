@@ -41,7 +41,7 @@ const Layout = () => {
   const handleLogout = () => {
     logout();
     setShowLogout(false);
-    // НЕ делаем navigate — остаёмся на текущей странице
+    // Не делаем navigate — остаёмся на текущей странице
   };
 
   const handleLoginRedirect = () => {
@@ -55,27 +55,43 @@ const Layout = () => {
           <img src={logoR} alt="Logo" className="logo" />
         </Link>
 
-        <div className="hat">
-          <div className="search-box">
+        <div
+          className="hat"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '20px',
+            width: '100%',
+            maxWidth: '900px',
+            marginLeft: '20px', // подправь отступы при необходимости
+            marginRight: '20px',
+          }}
+        >
+          <div className="search-box" style={{ flexGrow: 1, maxWidth: '300px' }}>
             <input
               type="text"
               className="search-input"
               placeholder="Search..."
               onChange={handleSearch}
+              style={{ width: '100%' }}
             />
             <img src={iconLoop} alt="Loop" className="search-icon" />
           </div>
 
-          <div className="roadstar">Roadstar</div>
+          <div className="roadstar" style={{ flexShrink: 0, fontWeight: '700', fontSize: '20px' }}>
+            Roadstar
+          </div>
 
           <div
             className="user-info"
             style={{
               display: 'flex',
               alignItems: 'center',
+              gap: '10px',
               justifyContent: 'flex-end',
-              flex: '1',
-              maxWidth: '220px',
+              minWidth: '150px',
+              flexShrink: 0,
             }}
           >
             {user ? (
@@ -133,7 +149,6 @@ const Layout = () => {
               </button>
             )}
           </div>
-
         </div>
       </div>
 
