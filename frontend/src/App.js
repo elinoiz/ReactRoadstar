@@ -8,7 +8,7 @@ import CreateAd from './components/CreateAd';
 import { UserProvider } from './UserContext';
 import MainPage from './components/MainPage';
 import AdDetail from './components/AdDetail';
-
+import MyAdd from './components/MyAdd';
 const AppContent = () => {
   const location = useLocation();
 
