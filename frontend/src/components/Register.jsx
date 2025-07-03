@@ -40,15 +40,13 @@ const RegisterPage = () => {
 
     if (loginResponse.data && loginResponse.data.success) {
       const userData = {
-        user_id: loginResponse.data.id, // или user_id, если так возвращаете с сервера
+        user_id: loginResponse.data.id, // убедитесь, что сервер возвращает поле `id` или `user_id`
         name: formData.login,
         isAuthenticated: true,
       };
-
-      
-      
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
+
       navigate('/main');
     } else {
       throw new Error('Login after registration failed');
