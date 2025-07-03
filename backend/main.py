@@ -175,3 +175,20 @@ async def get_bids(ad_id: int, db: Session = Depends(get_db)):
             user_name=user_name
         ))
     return bid_responses
+
+# Новые endpoint'ы в main.py
+
+@app.get("/get_all_ads_by_user")
+async def get_ads_by_user(user_id: int, db: Session = Depends(get_db)):
+    ads = db.query(Advertisement).filter(Advertisement.user_id == user_id).all()
+    return [AdvertisementResponse.from_orm(ad) for ad in ads]
+
+@app.delete("/delete_ad/{ad_id}")
+async def delete_ad(ad_id: int, db: Session = Depends(get_db)):
+    ad = db.query(Advertisement).filter(Advertisement.ad_id == ad_id).first()
+    if not ad:
+        raise HTTPException(status_code=404, detail="Ad not found")
+    
+    db.delete(ad)
+    db.commit()
+    return {"message": "Ad deleted successfully"}
