@@ -129,7 +129,9 @@ const Layout = () => {
 
       <div className="left-nav-block">
         <ul className="nav-list">
-          <li><img src={icon1} alt="icon1" /> Мои объявления</li>
+          <li onClick={() => navigate('/main/my-ads')}>
+            <img src={icon1} alt="icon1" /> Мои объявления
+          </li>
           <li><img src={icon2} alt="icon2" /> Сообщения</li>
           <li><img src={icon3} alt="icon3" /> Поддержка</li>
           <li><img src={icon4} alt="icon4" /> Мои ставки</li>
