@@ -29,6 +29,8 @@ const LoginPage = () => {
                 'Content-Type': 'multipart/form-data',
             },
         });
+        console.log('Login response data:', loginResponse.data);
+      
 
         if (response.data && response.data.success) {
             alert('Login successful!');
