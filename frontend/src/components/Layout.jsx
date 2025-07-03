@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
 import './styles/main.css';
 
@@ -15,9 +15,16 @@ import icon7 from './images/icon7.png';
 import { UserContext } from '../UserContext';
 
 const Layout = () => {
-  const { user, logout } = useContext(UserContext);
+  const { user, setUser, logout } = useContext(UserContext);
   const navigate = useNavigate();
   const [showLogout, setShowLogout] = useState(false);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, [setUser]);
 
   const handleSearch = (e) => {
     console.log('Search:', e.target.value);
@@ -34,11 +41,11 @@ const Layout = () => {
   const handleLogout = () => {
     logout();
     setShowLogout(false);
-    navigate('/login');
+    // НЕ делаем navigate — остаёмся на текущей странице
   };
 
   const handleLoginRedirect = () => {
-    navigate('/login');
+    navigate('/login'); // Переходим на страницу логина
   };
 
   return (
@@ -61,7 +68,7 @@ const Layout = () => {
 
           <div className="roadstar">Roadstar</div>
 
-          <div className="user-info">
+          <div className="user-info" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             {user ? (
               <>
                 <span className="username">{user.name}</span>
@@ -69,15 +76,14 @@ const Layout = () => {
                   src={Avatar}
                   alt="Avatar"
                   className="avatar"
-                  onClick={toggleLogout}
                   style={{ cursor: 'pointer' }}
+                  onClick={toggleLogout}
                 />
                 {showLogout && (
                   <button
                     onClick={handleLogout}
                     className="logout-button"
                     style={{
-                      marginLeft: '10px',
                       padding: '6px 14px',
                       backgroundColor: '#ff4d4f',
                       color: '#fff',
@@ -88,22 +94,30 @@ const Layout = () => {
                       boxShadow: '0 2px 6px rgba(255, 77, 79, 0.4)',
                       transition: 'background-color 0.3s ease',
                     }}
-                    onMouseEnter={e => e.currentTarget.style.backgroundColor = '#d9363e'}
-                    onMouseLeave={e => e.currentTarget.style.backgroundColor = '#ff4d4f'}
+                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#d9363e')}
+                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#ff4d4f')}
                   >
                     Выйти
                   </button>
                 )}
-
               </>
             ) : (
               <button
                 onClick={handleLoginRedirect}
                 className="login-button"
                 style={{
-                  padding: '5px 10px',
+                  padding: '6px 16px',
+                  backgroundColor: '#1890ff',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '4px',
                   cursor: 'pointer',
+                  fontWeight: '600',
+                  boxShadow: '0 2px 6px rgba(24, 144, 255, 0.4)',
+                  transition: 'background-color 0.3s ease',
                 }}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#096dd9')}
+                onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1890ff')}
               >
                 Войти
               </button>
