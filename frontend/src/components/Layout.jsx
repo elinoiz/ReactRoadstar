@@ -68,7 +68,16 @@ const Layout = () => {
 
           <div className="roadstar">Roadstar</div>
 
-          <div className="user-info" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div
+            className="user-info"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              flex: '1',
+              maxWidth: '220px',
+            }}
+          >
             {user ? (
               <>
                 <span className="username">{user.name}</span>
@@ -91,11 +100,12 @@ const Layout = () => {
                       borderRadius: '4px',
                       cursor: 'pointer',
                       fontWeight: '600',
+                      marginLeft: '10px',
                       boxShadow: '0 2px 6px rgba(255, 77, 79, 0.4)',
                       transition: 'background-color 0.3s ease',
                     }}
-                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#d9363e')}
-                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#ff4d4f')}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#d9363e')}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ff4d4f')}
                   >
                     Выйти
                   </button>
@@ -116,13 +126,14 @@ const Layout = () => {
                   boxShadow: '0 2px 6px rgba(24, 144, 255, 0.4)',
                   transition: 'background-color 0.3s ease',
                 }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#096dd9')}
-                onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1890ff')}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#096dd9')}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#1890ff')}
               >
                 Войти
               </button>
             )}
           </div>
+
         </div>
       </div>
 
