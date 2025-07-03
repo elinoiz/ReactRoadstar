@@ -35,17 +35,16 @@ const Layout = () => {
   };
 
   const toggleLogout = () => {
-    setShowLogout(prev => !prev);
+    setShowLogout((prev) => !prev);
   };
 
   const handleLogout = () => {
     logout();
     setShowLogout(false);
-    // НЕ делаем navigate — остаёмся на текущей странице
   };
 
   const handleLoginRedirect = () => {
-    navigate('/login'); // Переходим на страницу логина
+    navigate('/login');
   };
 
   return (
@@ -68,22 +67,44 @@ const Layout = () => {
 
           <div className="roadstar">Roadstar</div>
 
-          <div className="user-info" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {/* Блок user-info с фиксированной шириной и позицией */}
+          <div
+            className="user-info"
+            style={{
+              position: 'relative',
+              width: '180px', // фиксированная ширина под аватар и имя
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              gap: '10px',
+            }}
+          >
             {user ? (
               <>
-                <span className="username">{user.name}</span>
+                <span
+                  className="username"
+                  style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                >
+                  {user.name}
+                </span>
+
                 <img
                   src={Avatar}
                   alt="Avatar"
                   className="avatar"
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: 'pointer', width: '40px', height: '40px', borderRadius: '50%' }}
                   onClick={toggleLogout}
                 />
+
                 {showLogout && (
                   <button
                     onClick={handleLogout}
                     className="logout-button"
                     style={{
+                      position: 'absolute',
+                      top: '50px', // чуть ниже аватарки
+                      left: '50%',
+                      transform: 'translateX(-50%)',
                       padding: '6px 14px',
                       backgroundColor: '#ff4d4f',
                       color: '#fff',
@@ -93,9 +114,11 @@ const Layout = () => {
                       fontWeight: '600',
                       boxShadow: '0 2px 6px rgba(255, 77, 79, 0.4)',
                       transition: 'background-color 0.3s ease',
+                      whiteSpace: 'nowrap',
+                      zIndex: 10,
                     }}
-                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#d9363e')}
-                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#ff4d4f')}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#d9363e')}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ff4d4f')}
                   >
                     Выйти
                   </button>
@@ -106,6 +129,7 @@ const Layout = () => {
                 onClick={handleLoginRedirect}
                 className="login-button"
                 style={{
+                  width: '100%', // чтобы кнопка занимала весь блок user-info
                   padding: '6px 16px',
                   backgroundColor: '#1890ff',
                   color: '#fff',
@@ -116,8 +140,8 @@ const Layout = () => {
                   boxShadow: '0 2px 6px rgba(24, 144, 255, 0.4)',
                   transition: 'background-color 0.3s ease',
                 }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#096dd9')}
-                onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1890ff')}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#096dd9')}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#1890ff')}
               >
                 Войти
               </button>
@@ -128,13 +152,27 @@ const Layout = () => {
 
       <div className="left-nav-block">
         <ul className="nav-list">
-          <li><img src={icon1} alt="icon1" /> Мои объявления</li>
-          <li><img src={icon2} alt="icon2" /> Сообщения</li>
-          <li><img src={icon3} alt="icon3" /> Поддержка</li>
-          <li><img src={icon4} alt="icon4" /> Мои ставки</li>
-          <li><img src={icon5} alt="icon5" /> Контакты</li>
-          <li onClick={handleCreateAdClick}><img src={icon6} alt="icon6" /> Создать объявление</li>
-          <li><img src={icon7} alt="icon7" /> Настройки</li>
+          <li>
+            <img src={icon1} alt="icon1" /> Мои объявления
+          </li>
+          <li>
+            <img src={icon2} alt="icon2" /> Сообщения
+          </li>
+          <li>
+            <img src={icon3} alt="icon3" /> Поддержка
+          </li>
+          <li>
+            <img src={icon4} alt="icon4" /> Мои ставки
+          </li>
+          <li>
+            <img src={icon5} alt="icon5" /> Контакты
+          </li>
+          <li onClick={handleCreateAdClick}>
+            <img src={icon6} alt="icon6" /> Создать объявление
+          </li>
+          <li>
+            <img src={icon7} alt="icon7" /> Настройки
+          </li>
         </ul>
       </div>
 
