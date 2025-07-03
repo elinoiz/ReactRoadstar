@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useRef } from 'react';
+import React, { useState, useContext } from 'react';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
 import './styles/main.css';
 
@@ -15,40 +15,9 @@ import icon7 from './images/icon7.png';
 import { UserContext } from '../UserContext';
 
 const Layout = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
-
   const [showLogout, setShowLogout] = useState(false);
-  const avatarRef = useRef(null);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, [setUser]);
-
-  // Закрыть кнопку "Выйти", если клик вне аватара
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (avatarRef.current && !avatarRef.current.contains(event.target)) {
-        setShowLogout(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
-    setShowLogout(false);
-    navigate('/login');
-  };
-
-  const handleLoginClick = () => {
-    navigate('/login');
-  };
 
   const handleSearch = (e) => {
     console.log('Search:', e.target.value);
@@ -56,6 +25,20 @@ const Layout = () => {
 
   const handleCreateAdClick = () => {
     navigate('/main/create-ad');
+  };
+
+  const toggleLogout = () => {
+    setShowLogout(prev => !prev);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setShowLogout(false);
+    navigate('/login');
+  };
+
+  const handleLoginRedirect = () => {
+    navigate('/login');
   };
 
   return (
@@ -67,36 +50,36 @@ const Layout = () => {
 
         <div className="hat">
           <div className="search-box">
-            <input type="text" className="search-input" placeholder="Search..." onChange={handleSearch} />
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search..."
+              onChange={handleSearch}
+            />
             <img src={iconLoop} alt="Loop" className="search-icon" />
           </div>
 
           <div className="roadstar">Roadstar</div>
 
-          <div className="user-info" ref={avatarRef} style={{ position: 'relative' }}>
+          <div className="user-info">
             {user ? (
               <>
                 <span className="username">{user.name}</span>
                 <img
-                  src={user.photo || Avatar}
+                  src={Avatar}
                   alt="Avatar"
                   className="avatar"
-                  onClick={() => setShowLogout((prev) => !prev)}
+                  onClick={toggleLogout}
                   style={{ cursor: 'pointer' }}
                 />
                 {showLogout && (
                   <button
                     onClick={handleLogout}
+                    className="logout-button"
                     style={{
-                      position: 'absolute',
-                      top: '60px',
-                      right: 0,
+                      marginLeft: '10px',
                       padding: '5px 10px',
                       cursor: 'pointer',
-                      background: '#ff4d4f',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '5px',
                     }}
                   >
                     Выйти
@@ -105,14 +88,11 @@ const Layout = () => {
               </>
             ) : (
               <button
-                onClick={handleLoginClick}
+                onClick={handleLoginRedirect}
+                className="login-button"
                 style={{
                   padding: '5px 10px',
                   cursor: 'pointer',
-                  background: '#1890ff',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '5px',
                 }}
               >
                 Войти
