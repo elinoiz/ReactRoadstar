@@ -34,6 +34,8 @@ const AppContent = () => {
         <Route index element={<MainPage />} />
         <Route path="create-ad" element={<CreateAd />} />
         <Route path="ad/:ad_id" element={<AdDetail />} />
+        
+        <Route path="my-ads" element={<MyAdd />} />
       </Route>
     </Routes>
   );
