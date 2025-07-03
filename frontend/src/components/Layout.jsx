@@ -107,7 +107,7 @@ const Layout = () => {
                 className="login-button"
                 style={{
                   display:flex,
-                  justify-content:flex-end,
+                  justify-content: flex-end,
                   padding: '6px 16px',
                   backgroundColor: '#1890ff',
                   color: '#fff',
