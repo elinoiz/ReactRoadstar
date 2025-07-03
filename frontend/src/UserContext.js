@@ -7,7 +7,6 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // При загрузке проверяем localStorage
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       try {
