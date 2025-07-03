@@ -37,6 +37,7 @@ const RegisterPage = () => {
         'Content-Type': 'multipart/form-data',
       },
     });
+    console.log('Login response data:', loginResponse.data);
 
     if (loginResponse.data && loginResponse.data.success) {
       const userData = {
