@@ -41,6 +41,7 @@ const Layout = () => {
   const handleLogout = () => {
     logout();
     setShowLogout(false);
+    setUser(null); // Убедимся, что user очищается
     // НЕ делаем navigate — остаёмся на текущей странице
   };
 
