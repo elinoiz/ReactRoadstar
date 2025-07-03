@@ -55,20 +55,45 @@ const Layout = () => {
           <img src={logoR} alt="Logo" className="logo" />
         </Link>
 
-        <div className="hat">
-          <div className="search-box">
+        <div
+          className="hat"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '20px',
+            width: '100%',
+            maxWidth: '900px',
+            marginLeft: '20px',
+            marginRight: '20px',
+          }}
+        >
+          <div className="search-box" style={{ flexGrow: 1, maxWidth: '300px' }}>
             <input
               type="text"
               className="search-input"
               placeholder="Search..."
               onChange={handleSearch}
+              style={{ width: '100%' }}
             />
             <img src={iconLoop} alt="Loop" className="search-icon" />
           </div>
 
-          <div className="roadstar">Roadstar</div>
+          <div className="roadstar" style={{ flexShrink: 0, fontWeight: '700', fontSize: '20px' }}>
+            Roadstar
+          </div>
 
-          <div className="user-info" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div
+            className="user-info"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              justifyContent: 'flex-end',
+              minWidth: '150px',
+              flexShrink: 0,
+            }}
+          >
             {user ? (
               <>
                 <span className="username">{user.name}</span>
@@ -91,6 +116,7 @@ const Layout = () => {
                       borderRadius: '4px',
                       cursor: 'pointer',
                       fontWeight: '600',
+                      marginLeft: '10px',
                       boxShadow: '0 2px 6px rgba(255, 77, 79, 0.4)',
                       transition: 'background-color 0.3s ease',
                     }}
@@ -106,8 +132,8 @@ const Layout = () => {
                 onClick={handleLoginRedirect}
                 className="login-button"
                 style={{
-                  display:flex,
-                  justify-content: flex-end,
+                  display: 'flex',
+                  justifyContent: 'flex-end',
                   padding: '6px 16px',
                   backgroundColor: '#1890ff',
                   color: '#fff',
