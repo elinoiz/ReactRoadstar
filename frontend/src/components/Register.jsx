@@ -20,44 +20,90 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const formDataToSend = new FormData();
-        formDataToSend.append('user_name', formData.login);
-        formDataToSend.append('user_pass', formData.password);
+      const formDataToSend = new FormData();
+      formDataToSend.append('user_name', formData.login);
+      formDataToSend.append('user_pass', formData.password);
 
-        // 1. Регистрируем пользователя
-        const registerResponse = await axios.post('https://reactroadstar-3.onrender.com/register/', formDataToSend, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+      // 1. Регистрируем пользователя
+      await axios.post('https://reactroadstar-3.onrender.com/register/', formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-        console.log(registerResponse.data);
-        
-        // 2. Автоматически логиним пользователя после регистрации
-        const loginResponse = await axios.post('https://reactroadstar-3.onrender.com/login/', formDataToSend, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+      // 2. Автоматически логиним пользователя после регистрации
+      const loginResponse = await axios.post('https://reactroadstar-3.onrender.com/login/', formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-        const userData = {
-            id: loginResponse.data.user_id,
-            name: formData.login,
-            isAuthenticated: true
-        };
-        
-        setUser(userData);
-        localStorage.setItem('user', JSON.stringify(userData));
-        navigate('/main');
+      const userData = {
+        id: loginResponse.data.user_id,
+        name: formData.login,
+        isAuthenticated: true
+      };
+      
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+      navigate('/main');
     } catch (error) {
-        console.error(error);
-        alert('Registration failed!');
+      console.error(error);
+      alert('Registration failed!');
     }
   };
 
   return (
     <div className="container">
-      {/* Остальной JSX остается без изменений */}
+      <div className="left-side">
+        <img src={logo1} alt="Logo" className="logo" />
+        <div className="signup-text-left">
+          <p className="signup-line1-left">Sign Up</p>
+          <p className="signup-line2-left">
+            Enter your name and password to register
+          </p>
+          <form className="registration-form" onSubmit={handleSubmit}>
+            <div className="input-group">
+              <img src={userIcon} alt="User" className="icon" />
+              <label htmlFor="login">Login:</label>
+              <br />
+              <input
+                type="text"
+                id="login"
+                name="login"
+                className="line-form"
+                value={formData.login}
+                onChange={handleChange}
+              />
+              <br />
+            </div>
+            <div className="input-group">
+              <img src={padlock} alt="Padlock" className="icon" />
+              <label htmlFor="password">Password:</label>
+              <br />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                className="line-form"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <br />
+            </div>
+            <br />
+            <input type="submit" value="Registration" />
+          </form>
+        </div>
+      </div>
+      <div className="right-side">
+        <img src={kid} alt="Kid" className="kid-image" />
+        <div className="signup-text">
+          <p className="signup-line1">Sign Up to name</p>
+          <p className="signup-line2">and enjoy</p>
+        </div>
+      </div>
+      
     </div>
   );
 };
