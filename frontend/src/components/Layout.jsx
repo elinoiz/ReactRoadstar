@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
 import './styles/main.css';
-
 import logoR from './images/logoR.png';
 import iconLoop from './images/iconLoop.png';
 import Avatar from './images/Avatar.png';
@@ -34,56 +33,128 @@ const Layout = () => {
     navigate('/main/create-ad');
   };
 
-  const toggleLogout = () => {
+  const toggleLogout = (e) => {
+    e.stopPropagation();
     setShowLogout(prev => !prev);
   };
 
   const handleLogout = () => {
     logout();
     setShowLogout(false);
-    // НЕ делаем navigate — остаёмся на текущей странице
   };
 
   const handleLoginRedirect = () => {
-    navigate('/login'); // Переходим на страницу логина
+    navigate('/login');
   };
+
+  useEffect(() => {
+    const handleClickOutside = () => {
+      if (showLogout) {
+        setShowLogout(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [showLogout]);
 
   return (
     <div>
-      <div className="header">
+      <div className="header" style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '10px 20px',
+        backgroundColor: '#fff',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+      }}>
         <Link to="/main">
-          <img src={logoR} alt="Logo" className="logo" />
+          <img src={logoR} alt="Logo" style={{ height: '40px' }} />
         </Link>
 
-        <div className="hat">
-          <div className="search-box">
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '30px',
+          flex: 1,
+          justifyContent: 'flex-end',
+          maxWidth: '800px'
+        }}>
+          <div style={{ 
+            position: 'relative',
+            flex: 1,
+            maxWidth: '400px'
+          }}>
             <input
               type="text"
-              className="search-input"
               placeholder="Search..."
               onChange={handleSearch}
+              style={{
+                width: '100%',
+                padding: '8px 15px',
+                borderRadius: '20px',
+                border: '1px solid #ddd',
+                outline: 'none'
+              }}
             />
-            <img src={iconLoop} alt="Loop" className="search-icon" />
+            <img src={iconLoop} alt="Search" style={{
+              position: 'absolute',
+              right: '10px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              height: '16px'
+            }} />
           </div>
 
-          <div className="roadstar">Roadstar</div>
+          <div style={{ 
+            fontWeight: 'bold',
+            fontSize: '18px',
+            whiteSpace: 'nowrap'
+          }}>
+            Roadstar
+          </div>
 
-          <div className="user-info" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ 
+            minWidth: '120px',
+            display: 'flex',
+            justifyContent: 'flex-end'
+          }}>
             {user ? (
-              <>
-                <span className="username">{user.name}</span>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '10px',
+                position: 'relative',
+                cursor: 'pointer'
+              }} onClick={toggleLogout}>
+                <span style={{ 
+                  fontWeight: '500',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  maxWidth: '100px'
+                }}>
+                  {user.name}
+                </span>
                 <img
                   src={Avatar}
                   alt="Avatar"
-                  className="avatar"
-                  style={{ cursor: 'pointer' }}
-                  onClick={toggleLogout}
+                  style={{ 
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '50%',
+                    objectFit: 'cover'
+                  }}
                 />
                 {showLogout && (
                   <button
-                    onClick={handleLogout}
-                    className="logout-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLogout();
+                    }}
                     style={{
+                      position: 'absolute',
+                      top: 'calc(100% + 5px)',
+                      right: 0,
                       padding: '6px 14px',
                       backgroundColor: '#ff4d4f',
                       color: '#fff',
@@ -93,6 +164,7 @@ const Layout = () => {
                       fontWeight: '600',
                       boxShadow: '0 2px 6px rgba(255, 77, 79, 0.4)',
                       transition: 'background-color 0.3s ease',
+                      zIndex: 100,
                     }}
                     onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#d9363e')}
                     onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#ff4d4f')}
@@ -100,11 +172,10 @@ const Layout = () => {
                     Выйти
                   </button>
                 )}
-              </>
+              </div>
             ) : (
               <button
                 onClick={handleLoginRedirect}
-                className="login-button"
                 style={{
                   padding: '6px 16px',
                   backgroundColor: '#1890ff',
@@ -115,6 +186,7 @@ const Layout = () => {
                   fontWeight: '600',
                   boxShadow: '0 2px 6px rgba(24, 144, 255, 0.4)',
                   transition: 'background-color 0.3s ease',
+                  whiteSpace: 'nowrap'
                 }}
                 onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#096dd9')}
                 onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1890ff')}
@@ -126,19 +198,49 @@ const Layout = () => {
         </div>
       </div>
 
-      <div className="left-nav-block">
-        <ul className="nav-list">
-          <li><img src={icon1} alt="icon1" /> Мои объявления</li>
-          <li><img src={icon2} alt="icon2" /> Сообщения</li>
-          <li><img src={icon3} alt="icon3" /> Поддержка</li>
-          <li><img src={icon4} alt="icon4" /> Мои ставки</li>
-          <li><img src={icon5} alt="icon5" /> Контакты</li>
-          <li onClick={handleCreateAdClick}><img src={icon6} alt="icon6" /> Создать объявление</li>
-          <li><img src={icon7} alt="icon7" /> Настройки</li>
+      <div style={{
+        position: 'fixed',
+        left: 0,
+        top: '60px',
+        bottom: 0,
+        width: '200px',
+        backgroundColor: '#f8f9fa',
+        padding: '20px 0',
+        borderRight: '1px solid #eee'
+      }}>
+        <ul style={{ listStyle: 'none', padding: 0 }}>
+          <li style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+            <img src={icon1} alt="icon1" style={{ width: '20px' }} /> Мои объявления
+          </li>
+          <li style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+            <img src={icon2} alt="icon2" style={{ width: '20px' }} /> Сообщения
+          </li>
+          <li style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+            <img src={icon3} alt="icon3" style={{ width: '20px' }} /> Поддержка
+          </li>
+          <li style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+            <img src={icon4} alt="icon4" style={{ width: '20px' }} /> Мои ставки
+          </li>
+          <li style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+            <img src={icon5} alt="icon5" style={{ width: '20px' }} /> Контакты
+          </li>
+          <li 
+            onClick={handleCreateAdClick}
+            style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
+          >
+            <img src={icon6} alt="icon6" style={{ width: '20px' }} /> Создать объявление
+          </li>
+          <li style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+            <img src={icon7} alt="icon7" style={{ width: '20px' }} /> Настройки
+          </li>
         </ul>
       </div>
 
-      <div className="content">
+      <div style={{
+        marginLeft: '200px',
+        padding: '20px',
+        marginTop: '60px'
+      }}>
         <Outlet />
       </div>
     </div>
