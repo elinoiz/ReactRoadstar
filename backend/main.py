@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 import base64
 import os  # Для использования переменных окружения
+from fastapi import Query
 
 app = FastAPI()
 
@@ -179,9 +180,30 @@ async def get_bids(ad_id: int, db: Session = Depends(get_db)):
 # Новые endpoint'ы в main.py
 
 @app.get("/get_all_ads_by_user")
-async def get_ads_by_user(user_id: int, db: Session = Depends(get_db)):
-    ads = db.query(Advertisement).filter(Advertisement.user_id == user_id).all()
-    return [AdvertisementResponse.from_orm(ad) for ad in ads]
+async def get_ads_by_user(
+    user_id: int = Query(..., description="ID пользователя"),
+    db: Session = Depends(get_db)
+):
+    try:
+        ads = db.query(Advertisement).filter(Advertisement.user_id == user_id).all()
+        if not ads:
+            return []
+        
+        result = []
+        for ad in ads:
+            # Получаем имя пользователя
+            user = db.query(User).filter(User.user_id == ad.user_id).first()
+            user_name = user.user_name if user else "Unknown"
+            
+            # Формируем ответ
+            ad_response = AdvertisementResponse.from_orm(ad)
+            ad_response_dict = ad_response.dict()
+            ad_response_dict["user_name"] = user_name
+            result.append(ad_response_dict)
+        
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.delete("/delete_ad/{ad_id}")
 async def delete_ad(ad_id: int, db: Session = Depends(get_db)):
