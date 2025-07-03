@@ -32,9 +32,14 @@ const LoginPage = () => {
 
         if (response.data && response.data.success) {
             alert('Login successful!');
-            const user = { user_id: response.data.user_id, name: formData.login };
+            const user = {
+              user_id: response.data.user_id,
+              name: formData.login,
+              isAuthenticated: true,
+            };
             setUser(user);
-            localStorage.setItem('user', JSON.stringify(user)); // Сохраняем данные в localStorage
+            localStorage.setItem('user', JSON.stringify(user));
+
             console.log('User saved in localStorage:', JSON.stringify(user));
             navigate('/main'); // Перенаправление на главную страницу
         } else {
