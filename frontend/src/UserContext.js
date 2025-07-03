@@ -1,3 +1,4 @@
+// UserContext.js
 import React, { createContext, useState, useEffect } from 'react';
 
 export const UserContext = createContext();
@@ -6,21 +7,29 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // При загрузке проверяем localStorage
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    } else {
-      console.log('No user found in localStorage');
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        localStorage.removeItem('user');
+      }
     }
   }, []);
-  
-  useEffect(() => {
-    console.log('User in context:', user);
-  }, [user]);
-  
+
+  const login = (userData) => {
+    setUser({ ...userData, isAuthenticated: true });
+    localStorage.setItem('user', JSON.stringify({ ...userData, isAuthenticated: true }));
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+  };
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, login, logout }}>
       {children}
     </UserContext.Provider>
   );
