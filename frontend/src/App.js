@@ -1,25 +1,16 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-
 import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login';
 import Layout from './components/Layout';
 import CreateAd from './components/CreateAd';
-import { UserProvider, UserContext } from './UserContext';
+import { UserProvider } from './UserContext';
 import MainPage from './components/MainPage';
-import AdDetail from './components/AdDetail'; // Импортируем компонент AdDetail
+import AdDetail from './components/AdDetail';
 
-const App = () => {
+const AppContent = () => {
   const location = useLocation();
-  const { setUser } = useContext(UserContext);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, [setUser]);
 
   useEffect(() => {
     document.body.className = '';
@@ -42,7 +33,7 @@ const App = () => {
       <Route path="/main" element={<Layout />}>
         <Route index element={<MainPage />} />
         <Route path="create-ad" element={<CreateAd />} />
-        <Route path="ad/:ad_id" element={<AdDetail />} /> {/* Добавляем маршрут для AdDetail */}
+        <Route path="ad/:ad_id" element={<AdDetail />} />
       </Route>
     </Routes>
   );
@@ -51,7 +42,7 @@ const App = () => {
 const Root = () => (
   <UserProvider>
     <Router>
-      <App />
+      <AppContent />
     </Router>
   </UserProvider>
 );
