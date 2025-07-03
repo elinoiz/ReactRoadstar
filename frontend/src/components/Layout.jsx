@@ -35,17 +35,17 @@ const Layout = () => {
   };
 
   const toggleLogout = () => {
-    setShowLogout((prev) => !prev);
+    setShowLogout(prev => !prev);
   };
 
   const handleLogout = () => {
     logout();
     setShowLogout(false);
-    // Не переходим на login — остаёмся на текущей странице
+    // НЕ делаем navigate — остаёмся на текущей странице
   };
 
   const handleLoginRedirect = () => {
-    navigate('/login');
+    navigate('/login'); // Переходим на страницу логина
   };
 
   return (
@@ -68,35 +68,22 @@ const Layout = () => {
 
           <div className="roadstar">Roadstar</div>
 
-          <div
-            className="user-info"
-            style={{
-              position: 'relative',
-              width: '180px',
-              minHeight: '50px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
+          <div className="user-info" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             {user ? (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span className="username">{user.name}</span>
-                  <img
-                    src={Avatar}
-                    alt="Avatar"
-                    className="avatar"
-                    style={{ cursor: 'pointer', width: '40px', height: '40px', borderRadius: '50%' }}
-                    onClick={toggleLogout}
-                  />
-                </div>
+              <>
+                <span className="username">{user.name}</span>
+                <img
+                  src={Avatar}
+                  alt="Avatar"
+                  className="avatar"
+                  style={{ cursor: 'pointer' }}
+                  onClick={toggleLogout}
+                />
                 {showLogout && (
                   <button
                     onClick={handleLogout}
                     className="logout-button"
                     style={{
-                      marginTop: '10px',
                       padding: '6px 14px',
                       backgroundColor: '#ff4d4f',
                       color: '#fff',
@@ -107,20 +94,19 @@ const Layout = () => {
                       boxShadow: '0 2px 6px rgba(255, 77, 79, 0.4)',
                       transition: 'background-color 0.3s ease',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#d9363e')}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ff4d4f')}
+                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#d9363e')}
+                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#ff4d4f')}
                   >
                     Выйти
                   </button>
                 )}
-              </div>
+              </>
             ) : (
               <button
                 onClick={handleLoginRedirect}
                 className="login-button"
                 style={{
-                  width: '100%',
-                  padding: '8px 0',
+                  padding: '6px 16px',
                   backgroundColor: '#1890ff',
                   color: '#fff',
                   border: 'none',
@@ -130,8 +116,8 @@ const Layout = () => {
                   boxShadow: '0 2px 6px rgba(24, 144, 255, 0.4)',
                   transition: 'background-color 0.3s ease',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#096dd9')}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#1890ff')}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#096dd9')}
+                onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1890ff')}
               >
                 Войти
               </button>
