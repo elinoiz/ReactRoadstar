@@ -95,7 +95,9 @@ const CreateAd = () => {
     for (const key in formData) {
       form.append(key, formData[key]);
     }
-    form.append('user_id', user.id);
+    form.append('user_id', user.user_id);
+
+   
   
     try {
       const response = await fetch('https://reactroadstar-3.onrender.com/createAd', {
