@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+  import React, { useState, useEffect, useRef, useContext } from 'react';
 import './styles/create.css';
 import { UserContext } from '../UserContext';
 
@@ -85,10 +85,11 @@ const CreateAd = () => {
       return;
     }
 
-    if (!user || !user.id) {
+    if (!user || !user.user_id) {
       alert('Пользователь не авторизован');
       return;
     }
+
   
     const form = new FormData();
     for (const key in formData) {
