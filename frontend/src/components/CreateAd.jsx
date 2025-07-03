@@ -16,6 +16,35 @@ const CreateAd = () => {
   const photoInputRef = useRef(null);
   const uploadBoxRef = useRef(null);
 
+  const russianCities = [
+    'Москва',
+    'Санкт-Петербург',
+    'Новосибирск',
+    'Екатеринбург',
+    'Казань',
+    'Нижний Новгород',
+    'Челябинск',
+    'Самара',
+    'Омск',
+    'Ростов-на-Дону',
+    'Уфа',
+    'Красноярск',
+    'Пермь',
+    'Воронеж',
+    'Волгоград'
+  ];
+
+  const categories = [
+    'Недвижимость',
+    'Транспорт',
+    'Электроника',
+    'Одежда',
+    'Мебель',
+    'Спорттовары',
+    'Книги',
+    'Другое'
+  ];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -52,12 +81,12 @@ const CreateAd = () => {
     e.preventDefault();
     
     if (!formData.photo) {
-      alert('Please upload a photo.');
+      alert('Пожалуйста, загрузите фотографию.');
       return;
     }
 
-    if (!user || !user.user_id) {
-      alert('User is not authenticated');
+    if (!user || !user.id) {
+      alert('Пользователь не авторизован');
       return;
     }
   
@@ -65,7 +94,7 @@ const CreateAd = () => {
     for (const key in formData) {
       form.append(key, formData[key]);
     }
-    form.append('user_id', user.user_id);
+    form.append('user_id', user.id);
   
     try {
       const response = await fetch('https://reactroadstar-3.onrender.com/createAd', {
@@ -106,10 +135,6 @@ const CreateAd = () => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log('User in CreateAd:', user);
-  }, [user]);
-
   return (
     <form className="create-message" onSubmit={handleSubmit}>
       <div className="form-left">
@@ -143,6 +168,7 @@ const CreateAd = () => {
             size="30"
             value={formData.title}
             onChange={handleChange}
+            required
           />
         </div>
 
@@ -153,21 +179,25 @@ const CreateAd = () => {
             name="category"
             value={formData.category}
             onChange={handleChange}
+            required
           >
-            <option value="test1">Тест1</option>
-            <option value="test2">Тест2</option>
-            <option value="test3">Тест3</option>
+            <option value="">Выберите категорию</option>
+            {categories.map((category, index) => (
+              <option key={index} value={category}>{category}</option>
+            ))}
           </select>
         </div>
 
         <div className="form-group">
-          <label htmlFor="start_price">Число:</label>
+          <label htmlFor="start_price">Начальная ставка (₽):</label>
           <input
             type="number"
             id="start_price"
             name="start_price"
+            min="0"
             value={formData.start_price}
             onChange={handleChange}
+            required
           />
         </div>
 
@@ -178,10 +208,12 @@ const CreateAd = () => {
             name="city"
             value={formData.city}
             onChange={handleChange}
+            required
           >
-            <option value="test1">Тест1</option>
-            <option value="test2">Тест2</option>
-            <option value="test3">Тест3</option>
+            <option value="">Выберите город</option>
+            {russianCities.map((city, index) => (
+              <option key={index} value={city}>{city}</option>
+            ))}
           </select>
         </div>
 
@@ -194,11 +226,12 @@ const CreateAd = () => {
             rows="5"
             value={formData.description}
             onChange={handleChange}
+            required
           ></textarea>
         </div>
 
         <div className="form-group">
-          <input type="submit" value="Отправить" />
+          <input type="submit" value="Создать объявление" />
         </div>
       </div>
     </form>
