@@ -185,21 +185,27 @@ async def get_ads_by_user(
     db: Session = Depends(get_db)
 ):
     try:
+        # Проверяем существование пользователя
+        user_exists = db.query(User).filter(User.user_id == user_id).first()
+        if not user_exists:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        # Получаем объявления
         ads = db.query(Advertisement).filter(Advertisement.user_id == user_id).all()
-        if not ads:
-            return []
         
         result = []
         for ad in ads:
-            # Получаем имя пользователя
-            user = db.query(User).filter(User.user_id == ad.user_id).first()
-            user_name = user.user_name if user else "Unknown"
-            
-            # Формируем ответ
-            ad_response = AdvertisementResponse.from_orm(ad)
-            ad_response_dict = ad_response.dict()
-            ad_response_dict["user_name"] = user_name
-            result.append(ad_response_dict)
+            ad_dict = {
+                "ad_id": ad.ad_id,
+                "title": ad.title,
+                "city": ad.city,
+                "description": ad.description,
+                "start_price": ad.start_price,
+                "category": ad.category,
+                "photo": base64.b64encode(ad.photo).decode('utf-8') if ad.photo else None,
+                "user_id": ad.user_id
+            }
+            result.append(ad_dict)
         
         return result
     except Exception as e:
