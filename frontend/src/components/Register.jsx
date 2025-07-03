@@ -40,10 +40,12 @@ const RegisterPage = () => {
 
     if (loginResponse.data && loginResponse.data.success) {
       const userData = {
-        id: loginResponse.data.user_id,
+        user_id: loginResponse.data.id, // или user_id, если так возвращаете с сервера
         name: formData.login,
-        isAuthenticated: true // Добавляем это поле
+        isAuthenticated: true,
       };
+
+      
       
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
